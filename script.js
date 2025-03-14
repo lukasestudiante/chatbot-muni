@@ -171,7 +171,7 @@ const handleOutgoingMessage = async (e) => {
             logoutPopup.style.display = "block";
             // Reseteamos scrollTop antes de agregar el popup
             chatBody.scrollTop = chatBody.scrollHeight;
-        }, 8000); // 2 minutos
+        }, 12000); // 2 minutos
     };
 
     const resetInactivityTimer = () => {

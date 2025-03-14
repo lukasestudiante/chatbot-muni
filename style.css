@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+#chatbot-toggler {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    border: none;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    background: #207a10;
+}
+
+#chatbot-toggler span {
+    position: absolute;
+    color: #fff;
+    font-size: 30px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#chatbot-toggler:hover {
+    background: #18580b;
+}
+
+.chatbot-popup {
+    position: fixed;
+    bottom: 90px;
+    right: 35px;
+    width: 500px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 128px rgba(0, 0, 0, 0.1),
+                0 32px 64px rgba(0, 0, 0, 0.5);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+body.show-chatbot .chatbot-popup {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.chatbot-popup.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    background: #3aa827;
+    padding: 15px 22px;
+    justify-content: space-between;
+}
+
+.chat-header .header-info {
+    display: flex;
+    gap: 10px;
+    width: 30;
+}
+
+.chat-header .header-logo {
+    height: 35px;
+    width: 35px;
+    padding: 6px;
+    fill: #3aa827;
+    flex-shrink: 0;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.header-info .logo-text{
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.chat-header #close-chatbot {
+    border: none;
+    color: #fff;
+    height: 40px;
+    width: 40px;
+    font-size: 1.9rem;
+    margin-right: -10px;
+    padding-top: 2px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: none;
+    transition: 0.2s ease;
+}
+
+.chat-header #close-chatbot:hover {
+    background: #207a10;
+}
+
+.chat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre mensajes */
+    padding: 25px 22px; /* Un solo padding aquí */
+    height: 400px;
+    margin-bottom: 82px;
+    overflow-y: auto;
+}
+
+.chat-body .message {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+}
+
+
+.chat-body .bot-message {
+    background: #91e083;
+    /*width: 70%;*/
+    max-width: 80%;
+    margin: 5px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-bottom-left-radius: 0; 
+    text-align: left;
+    align-self: flex-start; /* Alinea el mensaje del bot a la izquierda */
+}
+
+.chat-body .user-message {
+    background: #3a912a; /* Color diferente para el usuario */
+    max-width: 80%;
+    margin: 5px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    color: white;
+    text-align: right;
+    align-self: flex-end; /* Alinea el mensaje del usuario a la derecha */
+}
+
+.chat-body .bot-message .thinking-indicator {
+    display: flex;
+    gap: 4px;
+    padding-block: 5px;
+    max-width: 50px;
+}
+
+.chat-body .bot-message .thinking-indicator .dot{
+    height: 7px; /* Aumenté el tamaño de los puntos */
+    width: 7px;  /* Aumenté el tamaño de los puntos */
+    opacity: 0.7;
+    border-radius: 50%;
+    background: #207a10;
+    animation: dotPulse 1.8s ease-in-out infinite;
+}
+
+.chat-body .bot-message .thinking-indicator .dot:nth-child(1){
+    animation-delay: 0.3s;
+}
+
+@keyframes dotPulse {
+    0%, 44% {
+        transform: translateY(0);
+    }
+
+    28% {
+        opacity: 0.4;
+        transform: translateY(-4px);
+    }
+
+    44% {
+        opacity: 0.2;
+    }
+}
+
+.chat-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    padding: 15px 22px 20px;
+}
+
+.chat-footer .chat-form {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 32px;
+    outline: 1px solid #cccc;
+    box-shadow: 0, 0, 8;
+}
+
+.chat-footer .chat-form:focus-within {
+    outline: 2px solid #3aa827;
+}
+
+.chat-form .message-input {
+    border: none;
+    outline: none;
+    resize: none;
+    width: 100%;
+    background: none;
+    /*height: 40px;*/
+    max-height: 180px;
+    padding: 12px 17px;
+    font-size: 0.95rem;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.chat-form .message-input:hover {
+    scrollbar-color: #cccc transparent;
+}
+
+.chat-form button {
+    height: 35px;
+    width: 35px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.15rem;
+    color: #fff;
+    flex-shrink: 0;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: #3aa827;
+    transition: 0.2s ease;
+}
+
+.chat-form button:hover {
+    background-color: #207a10;
+}
+
+/*Esto para que sea Responsive*/
+
+@media (max-width: 520px) {
+    #chatbot-toggler {
+        right: 20px;
+        bottom: 20px;
+    }
+
+    .chatbot-popup {
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .chatbot-popup .chat-header{
+        padding: 12px 15px;
+    }
+
+    .chat-body {
+        height: calc(90% - 55px);
+        padding: 25px 15px;
+    }
+
+    .chat-footer {
+        padding: 10px 15px 15px;
+    } 
+
+    .chat-form .file-upload-wrapper.file-uploaded #file-cancel {
+        opacity: 0;
+    }
+}
+
+.logout-popup {
+    display: none;
+    background: #91e083;
+    /*width: 70%;*/
+    max-width: 80%;
+    margin: 5px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0; 
+    text-align: left;
+    align-self: flex-end;
+    margin-top: auto;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+#logout-yes {
+    padding: 10px 63px;
+    margin: 10px;
+    cursor: pointer;
+    background: #912a2a;
+    color: #fff;
+    border: none;
+}
+
+#logout-no {
+    padding: 10px 63px;
+    margin: 10px;
+    cursor: pointer;
+    background: #3a912a;
+    color: #fff;
+    border: none;
+}

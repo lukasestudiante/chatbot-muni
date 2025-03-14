@@ -27,7 +27,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 ]);
 
 $requestData = [
-    "model" => "",
+    "model" => "", //Ingresar tu modelo IA 
     "messages" => [
         ["role" => "system", "content" => 'Eres un agente asistente de la Municipalidad de Hualañe, encargado de ayudar y orientar los distintos tramites que se encuentran en la Municipalidad de Hualañe. Tus tareas son:
 

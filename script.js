@@ -132,16 +132,29 @@ const handleOutgoingMessage = async (e) => {
 
     const botResponse = await generateBotResponse(userMessage);
 
+    const extractLinks = (text) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/gi;
+        return text.match(urlRegex) || [];
+    };
+
+    const links = extractLinks(botResponse);
+    const formattedBotResponse = botResponse.replace(/\n/g, "<br>").replace(/(https?:\/\/[^\s]+)/gi, "").trim();
+
     const thinkingIndicator = document.querySelector(".thinking-indicator");
     if (thinkingIndicator) thinkingIndicator.parentElement.remove();
 
-    const formattedBotResponse = botResponse.replace(/\n/g, "<br>");
-    const botMessageDiv = createMessageElement(formattedBotResponse, "bot-message");
-    chatBody.appendChild(botMessageDiv);
-    saveMessages();  // Guardar mensajes
+    if (formattedBotResponse) {
+        const botMessageDiv = createMessageElement(formattedBotResponse, "bot-message");
+        chatBody.appendChild(botMessageDiv);
+    }
 
+    links.forEach(link => {
+        const linkMessageDiv = createMessageElement(`<a href="${link}" target="_blank">${link}</a>`, "bot-message");
+        chatBody.appendChild(linkMessageDiv);
+    });
+
+    saveMessages();
     chatBody.scrollTop = chatBody.scrollHeight;
-    
 };
 
     chatForm.addEventListener("submit", handleOutgoingMessage);
@@ -157,6 +170,11 @@ const handleOutgoingMessage = async (e) => {
 
     let inactivityTimer;
 
+    const disableChatInput = (disable) => {
+        messageInput.disabled = disable;
+        sendMessageButton.disabled = disable;
+    }
+
     const startInactivityTimer = () => {
         clearTimeout(inactivityTimer);
         inactivityTimer = setTimeout(() => {
@@ -169,9 +187,10 @@ const handleOutgoingMessage = async (e) => {
     
             // Ahora, mostramos el popup
             logoutPopup.style.display = "block";
+            disableChatInput(true);
             // Reseteamos scrollTop antes de agregar el popup
             chatBody.scrollTop = chatBody.scrollHeight;
-        }, 8000); // 2 minutos
+        }, 12000); // 2 minutos
     };
 
     const resetInactivityTimer = () => {
@@ -190,15 +209,18 @@ const handleOutgoingMessage = async (e) => {
         const welcomeMessage = document.createElement("div");
         welcomeMessage.classList.add("message", "bot-message");
         welcomeMessage.innerHTML = `Hola👋, soy ${randomName} y soy tu Asistente Virtual entrenado por Inteligencia Artificial 🤖 para orientarte con los trámites que se pueden realizar en la Municipalidad de Hualañe🏦, ¿Con qué trámite te puedo ayudar? Actualmente los trámites que te puedo orientar ✍️:<br><br>👉 Patente de Alcoholes🍻<br>👉 Patente de Comercial💸<br>👉 Patente Industrial💰<br>👉 Patente Profesional💼<br>👉 Permiso de Circulación🚗`;
-        
+        disableChatInput(false)
         chatBody.appendChild(welcomeMessage); // Insertar mensaje en el chat
         logoutMessage.remove(); // Eliminar el popup del chat
         chatbotPopup.classList.remove("active"); // Cerrar el chatbot
         logoutPopup.style.display = "none";
+        
     });
 
     logoutNoButton.addEventListener("click", () => {
+        disableChatInput(false);
         logoutPopup.style.display = "none";
+        logoutPopup.remove();
     });
 
     // Agregar eventos de actividad del usuario

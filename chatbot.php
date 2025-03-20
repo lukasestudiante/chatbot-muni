@@ -6,7 +6,7 @@
     <title>Chatbot de la Ilustre Municipalidad de Hualañe</title>
     <!-- Cargar los iconos de Google Fonts en un solo enlace -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../chatbot-muni/chatbot.css">
 
 </head>
 <body>
@@ -53,5 +53,5 @@
         </div>
     </div>
 </body>
-    <script src="script.js"></script>
+    <script src="../chatbot-muni/chatbot.js"></script>
 </html>

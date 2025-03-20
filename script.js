@@ -190,7 +190,7 @@ const handleOutgoingMessage = async (e) => {
             disableChatInput(true);
             // Reseteamos scrollTop antes de agregar el popup
             chatBody.scrollTop = chatBody.scrollHeight;
-        }, 12000); // 2 minutos
+        }, 120000); // 2 minutos
     };
 
     const resetInactivityTimer = () => {
